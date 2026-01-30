@@ -40,4 +40,14 @@ model Post {
   updatedAt  DateTime  @updatedAt
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
+  tags       Tag[]
+}
+
+// Tag model for blog post tagging
+model Tag {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  posts     Post[]
 }
