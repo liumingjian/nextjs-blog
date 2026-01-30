@@ -18,6 +18,7 @@ model User {
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  posts     Post[]
 }
 
 // Category model for blog post categorization
@@ -31,16 +32,22 @@ model Category {
 
 // Post model for blog posts
 model Post {
-  id         String    @id @default(cuid())
-  title      String
-  slug       String    @unique
-  content    String?
-  published  Boolean   @default(false)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  categoryId String?
-  category   Category? @relation(fields: [categoryId], references: [id])
-  tags       Tag[]
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  content     String?
+  excerpt     String?
+  coverImage  String?
+  status      String    @default("draft")
+  views       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+  authorId    String
+  categoryId  String?
+  author      User      @relation(fields: [authorId], references: [id])
+  category    Category? @relation(fields: [categoryId], references: [id])
+  tags        Tag[]
 }
 
 // Tag model for blog post tagging
